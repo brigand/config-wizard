@@ -1,0 +1,27 @@
+.FinalMessage {
+
+}
+
+.FinalMessage textarea {
+  display: block;
+  font-family: monospace;
+  width: 100%;
+  border: none;
+  color: hotpink;
+}
+
+.FinalMessage textarea:focus, .FinalMessage textarea:active {
+  outline: none;
+  color: black;
+}
+
+FinalMessage textarea::selection {
+  background: #ffb7b7; /* WebKit/Blink Browsers */
+}
+FinalMessage textarea::-moz-selection {
+  background: #ffb7b7; /* Gecko Browsers */
+}
+
+.FinalMessage textarea.FinalMessage__RC {
+  height: 10em;
+}
