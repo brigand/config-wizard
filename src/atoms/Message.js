@@ -1,0 +1,112 @@
+import React, {PropTypes} from 'react';
+import './Message.css';
+
+// keep in sync with Message.css
+const EXPAND_DURATION = 300;
+
+export default
+class Message extends React.Component {
+  static propTypes = {
+    // provide one of these, they indicate if the message is to/from the user
+    remote: PropTypes.bool,
+    local: PropTypes.bool,
+
+    // the message body
+    children: PropTypes.any,
+
+    // the time it takes to write the message
+    length: PropTypes.number.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: true,
+      height: null,
+      firstRender: true,
+      entering: false,
+      didEnter: false,
+    };
+  }
+
+  componentDidMount() {
+    const height = getComputedStyle(this.contentEl).height;
+    this.setState({height, firstRender: false});
+
+    if (this.props.local) return;
+
+    // flip the args for readability
+    const timeout = (ms, f) => setTimeout(f, ms);
+
+    this.setState({show: false});
+    timeout(this.props.length, () => {
+      this.setState({show: true, entering: true}, () => {
+        timeout(0, () => {
+          this.setState({entering: false});
+          timeout(EXPAND_DURATION, () => {
+            this.setState({didEnter: true});
+          });
+        });
+      });
+    });
+  }
+
+  render() {
+    return (
+      <div className={this.getClassName()}>
+        {this.renderContent()}
+        {!this.state.show && this.renderLoading()}
+      </div>
+    );
+  }
+
+  getClassName() {
+    const {remote, local} = this.props;
+    let cn = 'Message';
+
+    if (remote) {
+      cn = `${cn} Message--remote`;
+    } else if (local) {
+      cn = `${cn} Message--local`;
+    }
+
+    return cn;
+  }
+
+  renderContent() {
+    const {firstRender, show, entering, didEnter, height} = this.state;
+    const style = {};
+
+    if (!firstRender) {
+      if (!show || entering) {
+        style.maxHeight = '0';
+        style.transform = `scale(0)`;
+      } else if (show && !entering) {
+        style.maxHeight = `${height}`;
+        style.transform = `scale(1)`;
+      }
+    }
+
+    if (didEnter) {
+      style.maxHeight = 'auto';
+    }
+
+    return (
+      <div className="Message__Content" style={style} ref={(el) => {
+        this.contentEl = el;
+      }}>
+        <div className="Message__Content__Body">
+          {this.props.children}
+        </div>
+      </div>
+    );
+  }
+
+  renderLoading() {
+    return (
+      <div className="Message__Loading">
+        ...
+      </div>
+    );
+  }
+}
