@@ -1,6 +1,12 @@
 const presetRegex = /^babel-preset-(.+)$/g;
 const pluginRegex = /^babel-plugin-(.+)$/g;
 
+const normalize = (res) => {
+  if (res.rc.presets.length === 0) delete res.rc.presets;
+  if (res.rc.plugins.length === 0) delete res.rc.plugins;
+  return res;
+};
+
 const computeBabelrcResult = ({edge}) => {
   const deps = [];
   const rc = {
@@ -17,10 +23,10 @@ const computeBabelrcResult = ({edge}) => {
   if (edge === 'bleeding') {
     rc.presets.push(addDep('babel-preset-latest'));
     rc.presets.push(addDep('babel-preset-stage-0'));
-    return {deps, rc};
+    return normalize({deps, rc});
   }
 
-  return {deps, rc};
+  return normalize({deps, rc});
 };
 
 export default computeBabelrcResult;

@@ -74,7 +74,7 @@ class BabelSite extends React.Component {
       text = `I'll just use the proposals I want without having to mess with the config.`;
     }
 
-    return <Message key="edge-response" local>{text}</Message>;
+    return <Message key={`edge-response-${edge}`} local>{text}</Message>;
   }
 
   renderEdgeButton(id) {

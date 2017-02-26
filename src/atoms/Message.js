@@ -33,13 +33,11 @@ class Message extends React.Component {
     const height = getComputedStyle(this.contentEl).height;
     this.setState({height, firstRender: false});
 
-    if (this.props.local) return;
-
     // flip the args for readability
     const timeout = (ms, f) => setTimeout(f, ms);
 
     this.setState({show: false});
-    timeout(this.props.length, () => {
+    timeout(this.props.length || 0, () => {
       this.setState({show: true, entering: true}, () => {
         timeout(0, () => {
           this.setState({entering: false});
