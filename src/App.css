@@ -1,0 +1,36 @@
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.App {
+
+}
+
+.App__Header {
+  text-align: center;
+  font-size: 1.25em;
+  color: #666;
+  font-weight: normal;
+}
+
+.App__Header__Site {
+  font-weight: bolder;
+  color: hotpink;
+}
+
+.App__GH {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.3em 0.6em;
+  background: #eee;
+  color: #333;
+  text-decoration: none;
+}
+
+.App__GH:hover {
+  color: hotpink;
+  text-decoration: underline;
+}

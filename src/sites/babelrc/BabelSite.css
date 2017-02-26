@@ -1,0 +1,7 @@
+.BabelSite {
+  margin: 1em auto;
+  padding: 1em;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+  width: 45em;
+  max-width: 80%;
+}
