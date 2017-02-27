@@ -2,12 +2,13 @@ import React from 'react';
 import Button from '../../atoms/Button';
 import Message from '../../atoms/Message';
 import FinalMessage from './FinalMessage';
-import {EDGES} from './babelConstants';
+import {EDGES, FRAMEWORKS} from './babelConstants';
 import './BabelSite.css';
 
 const LENGTHS = {
   INTRO: 500,
   EDGE: 1500,
+  FRAMEWORK: 1500,
   FINAL: 1000,
 };
 
@@ -18,6 +19,8 @@ class BabelSite extends React.Component {
     this.state = {
       showEdgePrompt: false,
       edge: null,
+      framework: null,
+      support: {},
     };
   }
   componentDidMount() {
@@ -27,6 +30,7 @@ class BabelSite extends React.Component {
   }
 
   render() {
+    const {edge, showEdgePrompt, framework, support} = this.state;
     return (
       <div className="BabelSite">
         <Message key="intro" remote length={LENGTHS.INTRO}>
@@ -39,8 +43,10 @@ class BabelSite extends React.Component {
             {`I'll ask you some questions and get you a working config!`}
           </p>
         </Message>
-        {this.state.showEdgePrompt && this.renderEdgePrompt()}
-        {this.state.edge && this.showEdgeResponse()}
+        {showEdgePrompt && this.renderEdgePrompt()}
+        {edge && this.showEdgeResponse()}
+        {edge && edge !== EDGES.get('safe') && this.renderFrameworksPrompt()}
+        {(framework || edge === EDGES.get('safe')) && this.renderBrowserSupportPrompt()}
         {this.maybeRenderFinal()}
       </div>
     );
@@ -93,8 +99,56 @@ class BabelSite extends React.Component {
     );
   }
 
+  renderFrameworksPrompt() {
+    const {framework} = this.state;
+    return (
+      <Message remote length={LENGTHS.FRAMEWORK} key="framework">
+        <p>
+          {`Different frameworks and situations have different conventions, including the experimental features `}
+          {`they use.`}
+        </p>
+        <p>
+          {`Any of these match what you're using?`}
+        </p>
+        <div>
+          <div>
+            {this.renderFrameworksButton(FRAMEWORKS.get('react'))}
+            {this.renderFrameworksButton(FRAMEWORKS.get('angular1'))}
+            {this.renderFrameworksButton(FRAMEWORKS.get('angular2'))}
+          </div>
+          <div>
+            {this.renderFrameworksButton(FRAMEWORKS.get('nodePackage'))}
+            {this.renderFrameworksButton(FRAMEWORKS.get('nodeApp'))}
+          </div>
+          <div>
+            {this.renderFrameworksButton(FRAMEWORKS.get('none'))}
+          </div>
+        </div>
+      </Message>
+    );
+  }
+
+  renderFrameworksButton(id) {
+    const text = FRAMEWORKS.texts[id];
+    if (!text) {
+      throw new Error(`Invalid framework id ${id}`);
+    }
+    return (
+      <Button
+        active={this.state.framework === id}
+        onClick={() => {
+          this.setState({framework: id});
+        }}
+      >{text}</Button>
+    );
+  }
+
+  renderBrowserSupportPrompt() {
+    const {support} = this.state;
+  }
+
   shouldRenderFinal() {
-    if (this.state.edge === EDGES.ids.bleeding) return true;
+    if (this.state.framework) return true;
     return false;
   }
 

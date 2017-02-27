@@ -44,6 +44,9 @@ class Message extends React.Component {
           this.setState({entering: false});
           timeout(EXPAND_DURATION, () => {
             this.setState({didEnter: true});
+            if (this.el.scrollIntoViewIfNeeded) {
+              this.el.scrollIntoViewIfNeeded();
+            }
           });
         });
       });
@@ -52,7 +55,7 @@ class Message extends React.Component {
 
   render() {
     return (
-      <div className={this.getClassName()}>
+      <div className={this.getClassName()} ref={(el) => this.el = el}>
         {this.renderContent()}
         {!this.state.show && this.renderLoading()}
       </div>
