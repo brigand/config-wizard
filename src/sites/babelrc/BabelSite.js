@@ -8,6 +8,7 @@ import './BabelSite.css';
 const LENGTHS = {
   INTRO: 500,
   EDGE: 1500,
+  FINAL: 1000,
 };
 
 export default
@@ -107,7 +108,7 @@ class BabelSite extends React.Component {
     };
 
     return (
-      <Message key="final" remote length={300}>
+      <Message key="final" remote length={LENGTHS.FINAL}>
         <FinalMessage data={data} />
       </Message>
     );

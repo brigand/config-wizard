@@ -11,6 +11,11 @@ class App extends Component {
       site: getCurrentSite(),
     }
   }
+
+  componentDidMount() {
+    document.title = `${this.getTitle()} - Config Wizard`;
+  }
+
   render() {
     return (
       <div className="App">
