@@ -14,9 +14,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1 className="App__Header">
-          {`Config Wizard:`} <strong className="App__Header__Site">{this.getTitle()}</strong>
-        </h1>
+        {this.getTitle === 'Home' &&
+          <h1 className="App__Header">
+            {`Config Wizard:`} <strong className="App__Header__Site">{this.getTitle()}</strong>
+          </h1>
+        }
         <a className="App__GH" href="https://github.com/brigand/config-wizard" target="_blank">
           View on Github
         </a>
