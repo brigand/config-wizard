@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import WritingIndicator from './WritingIndicator';
 import './Message.css';
 
 // keep in sync with Message.css
@@ -103,7 +104,7 @@ class Message extends React.Component {
   renderLoading() {
     return (
       <div className="Message__Loading">
-        ...
+        <WritingIndicator />
       </div>
     );
   }

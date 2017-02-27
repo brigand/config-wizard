@@ -7,7 +7,7 @@ import './BabelSite.css';
 
 const LENGTHS = {
   INTRO: 500,
-  EDGE: 1000,
+  EDGE: 1500,
 };
 
 export default
