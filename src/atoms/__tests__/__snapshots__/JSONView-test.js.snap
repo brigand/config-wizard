@@ -1,0 +1,113 @@
+exports[`test getTokens works for large example 1`] = `
+Array [
+  Array [
+    Object {
+      "type": "op",
+      "value": "{",
+    },
+  ],
+  Array [
+    Object {
+      "type": "whitespace",
+      "value": "  ",
+    },
+    Object {
+      "type": "string",
+      "value": "\"foo\"",
+    },
+    Object {
+      "type": "op",
+      "value": ":",
+    },
+    Object {
+      "type": "whitespace",
+      "value": " ",
+    },
+    Object {
+      "type": "op",
+      "value": "{",
+    },
+  ],
+  Array [
+    Object {
+      "type": "whitespace",
+      "value": "    ",
+    },
+    Object {
+      "type": "string",
+      "value": "\"x\"",
+    },
+    Object {
+      "type": "op",
+      "value": ":",
+    },
+    Object {
+      "type": "whitespace",
+      "value": " ",
+    },
+    Object {
+      "type": "number",
+      "value": "1,",
+    },
+  ],
+  Array [
+    Object {
+      "type": "whitespace",
+      "value": "    ",
+    },
+    Object {
+      "type": "string",
+      "value": "\"y\"",
+    },
+    Object {
+      "type": "op",
+      "value": ":",
+    },
+    Object {
+      "type": "whitespace",
+      "value": " ",
+    },
+    Object {
+      "type": "null",
+    },
+  ],
+  Array [
+    Object {
+      "type": "whitespace",
+      "value": "    ",
+    },
+    Object {
+      "type": "string",
+      "value": "\"z\"",
+    },
+    Object {
+      "type": "op",
+      "value": ":",
+    },
+    Object {
+      "type": "whitespace",
+      "value": " ",
+    },
+    Object {
+      "type": "string",
+      "value": "\"test\"",
+    },
+  ],
+  Array [
+    Object {
+      "type": "whitespace",
+      "value": "  ",
+    },
+    Object {
+      "type": "op",
+      "value": "}",
+    },
+  ],
+  Array [
+    Object {
+      "type": "op",
+      "value": "}",
+    },
+  ],
+]
+`;

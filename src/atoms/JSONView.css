@@ -1,0 +1,15 @@
+.JSONView {
+  font-size: 16px;
+}
+
+.JSONView__Token__string {
+  color: red;
+}
+
+.JSONView__Token__number {
+  color: blue;
+}
+
+.JSONView__Token__op {
+  color: #666;
+}

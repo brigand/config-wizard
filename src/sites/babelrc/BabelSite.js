@@ -7,9 +7,10 @@ import './BabelSite.css';
 
 const LENGTHS = {
   LOCAL: 100,
-  INTRO: 500,
-  EDGE: 900,
-  FRAMEWORK: 900,
+  INTRO: 150,
+  EDGE: 500,
+  FRAMEWORK: 300,
+  SUPPORT: 500,
   FINAL: 700,
 };
 
@@ -146,6 +147,11 @@ class BabelSite extends React.Component {
 
   renderBrowserSupportPrompt() {
     const {support} = this.state;
+    return (
+      <Message remote length={LENGTHS.SUPPORT}>
+        browser support
+      </Message>
+    );
   }
 
   shouldRenderFinal() {

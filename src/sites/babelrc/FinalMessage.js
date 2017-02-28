@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import JSONView from '../../atoms/JSONView';
 import computeBabelrcResult from './computeBabelrcResult';
 import './FinalMessage.css';
 
@@ -16,16 +17,37 @@ class FinalMessage extends React.Component {
     const {rc, deps} = computeBabelrcResult(data);
     const rcJson = JSON.stringify(rc, null, 2);
 
-    const selectSelf = (e) => e.target.select();
+    const selectSelf = (e) => {
+      const el = e.currentTarget;
+      if (document.selection) {
+        const range = document.body.createTextRange();
+        range.moveToElementText(el);
+        range.select();
+      } else if (window.getSelection) {
+        const range = document.createRange();
+        range.selectNode(el);
+        window.getSelection().addRange(range);
+      }
+    }
 
     return (
       <div className="FinalMessage">
         <p>
           {`Now that that's all settled, here's your .babelrc`}
-          <textarea readOnly value={rcJson} onClick={selectSelf} className="FinalMessage__RC"/>
+          <div onClick={selectSelf}>
+            <JSONView string={JSON.stringify(rc, null, 2)} />
+          </div>
           {`And you can install the dependencies with one of these commands`}
-          <textarea readOnly value={`npm install --save-dev ${deps.join(' ')}`} onClick={selectSelf} />
-          <textarea readOnly value={`yarn add --dev ${deps.join(' ')}`} onClick={selectSelf} />
+          <div className="FinalMessage__Command">
+            <code onClick={selectSelf}>
+              {`npm install --save-dev ${deps.join(' ')}`}
+            </code>
+          </div>
+          <div className="FinalMessage__Command">
+            <code className="FinalMessage__Command" onClick={selectSelf}>
+              {`yarn add --dev ${deps.join(' ')}`}
+            </code>
+          </div>
         </p>
       </div>
     );
