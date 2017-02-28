@@ -6,10 +6,11 @@ import {EDGES, FRAMEWORKS} from './babelConstants';
 import './BabelSite.css';
 
 const LENGTHS = {
+  LOCAL: 100,
   INTRO: 500,
-  EDGE: 1500,
-  FRAMEWORK: 1500,
-  FINAL: 1000,
+  EDGE: 900,
+  FRAMEWORK: 900,
+  FINAL: 700,
 };
 
 export default
@@ -81,7 +82,7 @@ class BabelSite extends React.Component {
       text = `I'll just use the proposals I want without having to mess with the config.`;
     }
 
-    return <Message key={`edge-response-${edge}`} local>{text}</Message>;
+    return <Message local length={LENGTHS.LOCAL} key={`edge-response-${edge}`}>{text}</Message>;
   }
 
   renderEdgeButton(id) {
@@ -159,6 +160,8 @@ class BabelSite extends React.Component {
 
     const data = {
       edge: this.state.edge,
+      framework: this.state.framework,
+      support: this.state.support,
     };
 
     return (

@@ -2,7 +2,7 @@ button.Button {
   padding: 0.2em 0.4em;
   margin: 0.1em 0.1em;
   border: none;
-  background: #7DF9FF;
+  background: rgb(245,218,85);
   color: white;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   font-size: 1.15em;
@@ -10,15 +10,15 @@ button.Button {
 }
 
 button.Button:focus, button.Button:active {
-  background: #FFA6D2;
+  background: rgb(111, 37, 149);
   outline: none;
   box-shadow: 0 0 0.25em rgba(125,249,255, 1)
 }
 
 button.Button--active {
-  background: hotpink;
+  background: rgb(129, 62, 163);
 }
 
 button.Button--active.Button:focus {
-  background: #E62284;
+  background: rgb(86, 19, 120);
 }
