@@ -10,7 +10,7 @@ button.Button {
 }
 
 button.Button:focus, button.Button:active {
-  background: rgb(111, 37, 149);
+  background: rgb(157, 96, 188);
   outline: none;
   box-shadow: 0 0 0.25em rgba(125,249,255, 1)
 }

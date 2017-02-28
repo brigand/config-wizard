@@ -58,6 +58,7 @@ class Message extends React.Component {
       <div className={this.getClassName()} ref={(el) => this.el = el}>
         {this.renderContent()}
         {!this.state.show && this.renderLoading()}
+        <div className="Message__arrow" />
       </div>
     );
   }
