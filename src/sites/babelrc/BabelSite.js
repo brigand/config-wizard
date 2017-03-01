@@ -1,5 +1,5 @@
 import React from 'react';
-import arrford from 'arrford';
+import arrford from '../../utils/arrford';
 import Button from '../../atoms/Button';
 import Message from '../../atoms/Message';
 import FinalMessage from './FinalMessage';
