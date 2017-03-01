@@ -15,7 +15,6 @@ class FinalMessage extends React.Component {
     const {data} = this.props;
 
     const {rc, deps} = computeBabelrcResult(data);
-    const rcJson = JSON.stringify(rc, null, 2);
 
     const selectSelf = (e) => {
       const el = e.currentTarget;

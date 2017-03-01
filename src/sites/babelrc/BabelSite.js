@@ -1,4 +1,5 @@
 import React from 'react';
+import arrford from 'arrford';
 import Button from '../../atoms/Button';
 import Message from '../../atoms/Message';
 import FinalMessage from './FinalMessage';
@@ -14,6 +15,11 @@ const LENGTHS = {
   FINAL: 700,
 };
 
+const INITIAL_SUPPORT = {
+  node: null,
+  browsers: [],
+};
+
 export default
 class BabelSite extends React.Component {
   constructor(props) {
@@ -22,10 +28,7 @@ class BabelSite extends React.Component {
       showEdgePrompt: false,
       edge: null,
       framework: null,
-      support: {
-        node: null,
-        browsers: [],
-      },
+      support: INITIAL_SUPPORT,
     };
   }
   componentDidMount() {
@@ -54,6 +57,7 @@ class BabelSite extends React.Component {
         {(framework && framework !== FRAMEWORKS.get('nodePackage'))
           && this.renderBrowserSupportPrompt()
         }
+        {(!!support.node || !!support.browsers.length) && this.renderBrowserSupportResponse()}
         {this.maybeRenderFinal()}
       </div>
     );
@@ -107,7 +111,6 @@ class BabelSite extends React.Component {
   }
 
   renderFrameworksPrompt() {
-    const {framework} = this.state;
     return (
       <Message remote length={LENGTHS.FRAMEWORK} key="framework">
         <p>
@@ -144,7 +147,22 @@ class BabelSite extends React.Component {
       <Button
         active={this.state.framework === id}
         onClick={() => {
-          this.setState({framework: id});
+          // determine if we need to reset support
+          let {framework, support} = this.state;
+          // we don't need the second half of this check, but I think it reads better
+          // transition from node:
+          if (framework === FRAMEWORKS.get('nodeApp') && id !== FRAMEWORKS.get('nodeApp')) {
+            support = INITIAL_SUPPORT;
+          }
+          // transition to node:
+          else if (framework !== FRAMEWORKS.get('nodeApp') && id === FRAMEWORKS.get('nodeApp')) {
+            support = INITIAL_SUPPORT;
+          }
+          // transition to/from nodePackage
+          else if (framework === FRAMEWORKS.get('nodePackage') || id === FRAMEWORKS.get('nodePackage')) {
+            support = INITIAL_SUPPORT;
+          }
+          this.setState({framework: id, support: support});
         }}
       >{text}</Button>
     );
@@ -154,12 +172,13 @@ class BabelSite extends React.Component {
     const {framework, support} = this.state;
     if (framework === FRAMEWORKS.get('nodeApp')) {
       return (
-        <Message remote length={LENGTHS.SUPPORT}>
+        <Message remote length={LENGTHS.SUPPORT} key="browser-support-node">
           <p>
             {`What's the minimum Node.js version you need to support?`}
           </p>
           {[4, 5, 6, 7].map(version => (
             <Button
+              key={version}
               active={support.node === version}
               onClick={() => this.setState({support: {...this.state.support, node: version}})}
             >
@@ -182,8 +201,19 @@ class BabelSite extends React.Component {
       },
     });
 
+    const percentIds = BROWSERS.percents.map(x => x.value);
+    const toggleSupportPercent = key => this.setState({
+      support: {
+        ...this.state.support,
+        // adds or removes it from the array
+        browsers: hasSupport(key)
+          ? support.browsers.filter(x => x !== key)
+          : support.browsers.filter(x => percentIds.indexOf(x) === -1).concat([key]),
+      },
+    });
+
     return (
-      <Message remote length={LENGTHS.SUPPORT}>
+      <Message remote length={LENGTHS.SUPPORT} key="browser-support-browser">
         <p>
           {`Supporting more browsers is great, but you can ship less code `}
           {`with potentially much better performance by only targetting newer browsers.`}
@@ -194,6 +224,7 @@ class BabelSite extends React.Component {
         <div>
           {[BROWSERS.versions.map(({text, value}) => (
             <Button
+              key={value}
               active={hasSupport(value)}
               onClick={() => toggleSupport(value)}
             >
@@ -207,13 +238,39 @@ class BabelSite extends React.Component {
         <div>
           {[BROWSERS.percents.map(({text, value}) => (
             <Button
+              key={value}
               active={hasSupport(value)}
-              onClick={() => toggleSupport(value)}
+              onClick={() => toggleSupportPercent(value)}
             >
               {text}
             </Button>
           ))]}
         </div>
+      </Message>
+    );
+  }
+
+  renderBrowserSupportResponse() {
+    const {support} = this.state;
+    const supportsPercent = support.browsers.find(value => /> \d+%/.test(value));
+    const supportsOther = support.browsers.filter(value => /> \d+%/.test(value) === false);
+    const supportsOtherCount = supportsOther.length;
+
+
+    let text = '';
+    if (support.node) {
+      text = `I'm supporting node ${support.node}.x.x.`;
+    } else if (supportsPercent && supportsOtherCount === 0){
+      text = `I'm supporting browsers with usage ${supportsPercent}`;
+    } else if (!supportsPercent && supportsOtherCount > 0) {
+      text = `I'm supporting ${arrford(supportsOther)}`
+    } else if (supportsPercent && supportsOtherCount > 0) {
+      text = `I'm supporting browsers with usage ${supportsPercent}, plus ${arrford(supportsOther)}`;
+    }
+
+    return (
+      <Message local length={LENGTHS.LOCAL} key={`browser-support-response/${text}`}>
+        {text}
       </Message>
     );
   }
