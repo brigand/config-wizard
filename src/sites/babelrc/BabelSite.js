@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../../atoms/Button';
 import Message from '../../atoms/Message';
 import FinalMessage from './FinalMessage';
-import {EDGES, FRAMEWORKS} from './babelConstants';
+import {EDGES, FRAMEWORKS, BROWSERS} from './babelConstants';
 import './BabelSite.css';
 
 const LENGTHS = {
@@ -22,7 +22,10 @@ class BabelSite extends React.Component {
       showEdgePrompt: false,
       edge: null,
       framework: null,
-      support: {},
+      support: {
+        node: null,
+        browsers: [],
+      },
     };
   }
   componentDidMount() {
@@ -47,8 +50,10 @@ class BabelSite extends React.Component {
         </Message>
         {showEdgePrompt && this.renderEdgePrompt()}
         {edge && this.showEdgeResponse()}
-        {edge && edge !== EDGES.get('safe') && this.renderFrameworksPrompt()}
-        {(framework || edge === EDGES.get('safe')) && this.renderBrowserSupportPrompt()}
+        {edge && this.renderFrameworksPrompt()}
+        {(framework && framework !== FRAMEWORKS.get('nodePackage'))
+          && this.renderBrowserSupportPrompt()
+        }
         {this.maybeRenderFinal()}
       </div>
     );
@@ -146,10 +151,69 @@ class BabelSite extends React.Component {
   }
 
   renderBrowserSupportPrompt() {
-    const {support} = this.state;
+    const {framework, support} = this.state;
+    if (framework === FRAMEWORKS.get('nodeApp')) {
+      return (
+        <Message remote length={LENGTHS.SUPPORT}>
+          <p>
+            {`What's the minimum Node.js version you need to support?`}
+          </p>
+          {[4, 5, 6, 7].map(version => (
+            <Button
+              active={support.node === version}
+              onClick={() => this.setState({support: {...this.state.support, node: version}})}
+            >
+              {`v${version}.x.x`}
+            </Button>
+          ))}
+        </Message>
+      );
+    }
+
+    const hasSupport = key => support.browsers.includes(key);
+
+    const toggleSupport = key => this.setState({
+      support: {
+        ...this.state.support,
+        // adds or removes it from the array
+        browsers: hasSupport(key)
+          ? support.browsers.filter(x => x !== key)
+          : support.browsers.concat([key]),
+      },
+    });
+
     return (
       <Message remote length={LENGTHS.SUPPORT}>
-        browser support
+        <p>
+          {`Supporting more browsers is great, but you can ship less code `}
+          {`with potentially much better performance by only targetting newer browsers.`}
+        </p>
+        <p>
+          {`What's your target support? You can select multiple options.`}
+        </p>
+        <div>
+          {[BROWSERS.versions.map(({text, value}) => (
+            <Button
+              active={hasSupport(value)}
+              onClick={() => toggleSupport(value)}
+            >
+              {text}
+            </Button>
+          ))]}
+        </div>
+        <p>
+          {`Or perhaps you want to include browsers with a certain number of users?`}
+        </p>
+        <div>
+          {[BROWSERS.percents.map(({text, value}) => (
+            <Button
+              active={hasSupport(value)}
+              onClick={() => toggleSupport(value)}
+            >
+              {text}
+            </Button>
+          ))]}
+        </div>
       </Message>
     );
   }

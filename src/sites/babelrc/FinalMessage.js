@@ -32,7 +32,7 @@ class FinalMessage extends React.Component {
 
     return (
       <div className="FinalMessage">
-        <p>
+        <div>
           {`Now that that's all settled, here's your .babelrc`}
           <div onClick={selectSelf}>
             <JSONView string={JSON.stringify(rc, null, 2)} />
@@ -48,7 +48,7 @@ class FinalMessage extends React.Component {
               {`yarn add --dev ${deps.join(' ')}`}
             </code>
           </div>
-        </p>
+        </div>
       </div>
     );
   }

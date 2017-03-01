@@ -1,4 +1,4 @@
-body, html, #root {
+html, body, #config-wizard-default-root {
   margin: 0;
   padding: 0;
   height: 100%;
@@ -6,7 +6,7 @@ body, html, #root {
 }
 
 .App {
-
+  color: rgba(50, 51, 48, 1);
 }
 
 .App__Header {
@@ -29,6 +29,10 @@ body, html, #root {
   background: #eee;
   color: #333;
   text-decoration: none;
+}
+
+.config-wizard-is-embed .App__GH {
+  display: none;
 }
 
 .App__GH:hover {

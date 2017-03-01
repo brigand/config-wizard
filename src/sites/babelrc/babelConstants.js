@@ -35,3 +35,22 @@ export const FRAMEWORKS = addHelpers({
     none: 'None/Other',
   },
 })
+
+export const BROWSERS = {
+  versions: [
+    {text: 'IE9', value: 'ie 9'},
+    {text: 'IE10', value: 'ie 10'},
+    {text: 'IE11', value: 'ie 11'},
+    {text: 'iOS', value: 'last 2 iOS versions'},
+    {text: 'Safari', value: 'last 3 Safari versions'},
+    {text: 'FF LTS', value: 'Firefox ESR'},
+    {text: 'Chrome', value: 'last 2 Chrome versions'},
+    {text: 'Firefox', value: 'last 2 Firefox versions'},
+  ],
+  percents: [
+    {text: '>1%', value: '> 1%'},
+    {text: '>3%', value: '> 3%'},
+    {text: '>5%', value: '> 5%'},
+    {text: '>10%', value: '> 10%'},
+  ],
+};
