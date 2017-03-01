@@ -9,10 +9,23 @@ export default class Button extends React.Component {
     type: PropTypes.oneOf(['button', 'submit']),
   };
 
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   static defaultProps = {
     kind: 'primary',
     type: 'button',
   };
+
+  handleClick(e) {
+    // defocus the button if it was active for better UX
+    if (this.props.active) {
+      e.currentTarget.blur();
+    }
+    this.props.onClick();
+  }
 
   render() {
     let className = 'Button';
@@ -24,7 +37,7 @@ export default class Button extends React.Component {
       <button
         className={className}
         type={this.props.type}
-        onClick={this.props.onClick}
+        onClick={this.handleClick}
       >
         {this.props.children}
       </button>
