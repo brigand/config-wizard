@@ -1,0 +1,118 @@
+exports[`test edge: cutting, framework: angular1, support: {"browsers":["> 1%"]} 1`] = `
+Object {
+  "deps": Array [
+    "babel-preset-env",
+    "babel-plugin-transform-class-properties",
+    "babel-plugin-angularjs-annotate@^0.7.0",
+  ],
+  "rc": Object {
+    "plugins": Array [
+      "transform-class-properties",
+      "angularjs-annotate",
+    ],
+    "presets": Array [
+      Array [
+        "env",
+        Object {
+          "targets": Object {
+            "browsers": Array [
+              "> 1%",
+            ],
+          },
+        },
+      ],
+    ],
+  },
+}
+`;
+
+exports[`test edge: cutting, framework: angular2, support: {"browsers":["> 1%"]} 1`] = `
+Object {
+  "deps": Array [
+    "babel-preset-env",
+    "babel-plugin-transform-decorators",
+  ],
+  "rc": Object {
+    "plugins": Array [
+      "transform-decorators",
+    ],
+    "presets": Array [
+      Array [
+        "env",
+        Object {
+          "targets": Object {
+            "browsers": Array [
+              "> 1%",
+            ],
+          },
+        },
+      ],
+    ],
+  },
+}
+`;
+
+exports[`test edge: cutting, framework: nodePackage, support: {"browsers":[],"node":null} 1`] = `
+Object {
+  "deps": Array [
+    "babel-preset-latest",
+  ],
+  "rc": Object {
+    "presets": Array [
+      "latest",
+    ],
+  },
+}
+`;
+
+exports[`test edge: cutting, framework: none, support: {"browsers":["> 1%"],"node":null} 1`] = `
+Object {
+  "deps": Array [
+    "babel-preset-env",
+  ],
+  "rc": Object {
+    "presets": Array [
+      Array [
+        "env",
+        Object {
+          "targets": Object {
+            "browsers": Array [
+              "> 1%",
+            ],
+          },
+        },
+      ],
+    ],
+  },
+}
+`;
+
+exports[`test edge: cutting, framework: react, support: {"browsers":["> 1%"]} 1`] = `
+Object {
+  "deps": Array [
+    "babel-preset-env",
+    "babel-preset-react",
+    "babel-plugin-transform-class-properties",
+    "babel-plugin-transform-object-rest-spread",
+  ],
+  "rc": Object {
+    "plugins": Array [
+      "transform-class-properties",
+      "transform-object-rest-spread",
+    ],
+    "presets": Array [
+      Array [
+        "env",
+        Object {
+          "targets": Object {
+            "browsers": Array [
+              "> 1%",
+            ],
+          },
+        },
+      ],
+      "react",
+    ],
+  },
+}
+`;
