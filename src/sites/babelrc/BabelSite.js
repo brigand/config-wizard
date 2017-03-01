@@ -276,8 +276,11 @@ class BabelSite extends React.Component {
   }
 
   shouldRenderFinal() {
-    if (this.state.framework) return true;
-    return false;
+    const {edge, framework, support: {node, browsers}} = this.state;
+    if (!edge) return false;
+    if (!framework) return false;
+    if (framework !== FRAMEWORKS.get('nodePackage') && !node && !browsers.length) return false;
+    return true;
   }
 
   maybeRenderFinal() {

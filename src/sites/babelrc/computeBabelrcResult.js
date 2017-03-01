@@ -1,3 +1,4 @@
+import {EDGES, FRAMEWORKS} from './babelConstants';
 const presetRegex = /^babel-preset-(.+)$/g;
 const pluginRegex = /^babel-plugin-(.+)$/g;
 
@@ -7,23 +8,65 @@ const normalize = (res) => {
   return res;
 };
 
-const computeBabelrcResult = ({edge}) => {
+const computeBabelrcResult = ({edge, framework, support}) => {
   const deps = [];
   const rc = {
     plugins: [],
     presets: [],
   };
 
-  const addDep = (name) => {
-    deps.push(name);
+  const addDep = (name, version = undefined) => {
+    if (deps.indexOf(name) === -1) {
+      if (version) {
+        deps.push(`${name}@${version}`);
+      } else {
+        deps.push(name);
+      }
+    }
     const shortName = name.replace(presetRegex, '$1').replace(pluginRegex, '$1');
     return shortName;
   };
 
-  if (edge === 'bleeding') {
+  const getEnvConfig = () => {
+    const preset = addDep('babel-preset-env');
+    const config = {targets: {}};
+    if (support.node) {
+      config.targets.node = support.node;
+    } else {
+      config.targets.browsers = support.browsers;
+    }
+    return [preset, config];
+  };
+
+  // node packages should be compiled to ES5
+  if (framework === FRAMEWORKS.get('nodePackage')) {
     rc.presets.push(addDep('babel-preset-latest'));
+  } else {
+    rc.presets.push(getEnvConfig());
+  }
+
+  if (edge === EDGES.get('bleeding')) {
     rc.presets.push(addDep('babel-preset-stage-0'));
     return normalize({deps, rc});
+  }
+
+  // frameworks specif stuff
+  if (framework === FRAMEWORKS.get('react')) {
+    rc.presets.push(addDep('babel-preset-react'));
+  }
+
+  if (edge === EDGES.get('cutting')) {
+    if (framework === FRAMEWORKS.get('react')) {
+      rc.plugins.push(addDep('babel-plugin-transform-class-properties'));
+      rc.plugins.push(addDep('babel-plugin-transform-object-rest-spread'));
+    }
+    if (framework === FRAMEWORKS.get('angular1')) {
+      rc.plugins.push(addDep('babel-plugin-transform-class-properties'));
+      rc.plugins.push(addDep('babel-plugin-angularjs-annotate', '^0.7.0'));
+    }
+    if (framework === FRAMEWORKS.get('angular2')) {
+      rc.plugins.push(addDep('babel-plugin-transform-decorators'));
+    }
   }
 
   return normalize({deps, rc});

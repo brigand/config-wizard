@@ -15,6 +15,7 @@ class FinalMessage extends React.Component {
     const {data} = this.props;
 
     const {rc, deps} = computeBabelrcResult(data);
+    const escapedDeps = deps.map(shEscapeIfNeeded);
 
     const selectSelf = (e) => {
       const el = e.currentTarget;
@@ -39,16 +40,23 @@ class FinalMessage extends React.Component {
           {`And you can install the dependencies with one of these commands`}
           <div className="FinalMessage__Command">
             <code onClick={selectSelf}>
-              {`npm install --save-dev ${deps.join(' ')}`}
+              {`npm install --save-dev ${escapedDeps.join(' ')}`}
             </code>
           </div>
           <div className="FinalMessage__Command">
             <code className="FinalMessage__Command" onClick={selectSelf}>
-              {`yarn add --dev ${deps.join(' ')}`}
+              {`yarn add --dev ${escapedDeps.join(' ')}`}
             </code>
           </div>
         </div>
       </div>
     );
   }
+}
+
+function shEscapeIfNeeded(str) {
+  if (/[{}*$><"?]/.test(str)) {
+    return `'${str}'`;
+  }
+  return str;
 }
