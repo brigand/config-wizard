@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import Home from './sites/home/Home';
 import BabelSite from './sites/babelrc/BabelSite';
@@ -5,7 +6,10 @@ import getCurrentSite from './utils/getCurrentSite';
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
+  state: {
+    site: ?string,
+  };
+  constructor(props: {}) {
     super(props);
     this.state = {
       site: getCurrentSite(),
@@ -19,7 +23,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.getTitle === 'Home' &&
+        {this.getTitle() === 'Home' &&
           <h1 className="App__Header">
             {`Config Wizard:`} <strong className="App__Header__Site">{this.getTitle()}</strong>
           </h1>
@@ -34,7 +38,7 @@ class App extends Component {
     );
   }
 
-  getTitle() {
+  getTitle(): string {
     const {site} = this.state;
     if (site === null) {
       return 'Home';
@@ -45,6 +49,7 @@ class App extends Component {
     if (site === 'eslintrc') {
       return '.eslintrc';
     }
+    return '';
   }
 
   renderSite() {

@@ -1,4 +1,5 @@
-const getCurrentSite = () => {
+// @flow
+const getCurrentSite = (): ?string => {
   const url = location.search.slice(1);
   if (url.indexOf('babelrc') === 0) {
     return 'babelrc';
