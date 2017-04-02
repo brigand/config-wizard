@@ -3,6 +3,8 @@ import arrford from '../../utils/arrford';
 import Button from '../../atoms/Button';
 import Message from '../../atoms/Message';
 import FinalMessage from './FinalMessage';
+import PolyfillQuestion from './messages/PolyfillQuestion';
+import PolyfillReply from './messages/PolyfillReply';
 import {EDGES, FRAMEWORKS, BROWSERS} from './babelConstants';
 import './BabelSite.css';
 
@@ -13,6 +15,7 @@ const LENGTHS = {
   FRAMEWORK: 300,
   SUPPORT: 500,
   FINAL: 700,
+  POLYFILL: 500,
 };
 
 const INITIAL_SUPPORT = {
@@ -29,6 +32,7 @@ class BabelSite extends React.Component {
       edge: null,
       framework: null,
       support: INITIAL_SUPPORT,
+      polyfill: null,
     };
   }
   componentDidMount() {
@@ -58,6 +62,7 @@ class BabelSite extends React.Component {
           && this.renderBrowserSupportPrompt()
         }
         {(!!support.node || !!support.browsers.length) && this.renderBrowserSupportResponse()}
+        {this.hasSupport() && this.renderPolyfillQuestion()}
         {this.maybeRenderFinal()}
       </div>
     );
@@ -275,12 +280,28 @@ class BabelSite extends React.Component {
     );
   }
 
+  hasSupport() {
+    return !!(this.state.support.node || this.state.support.browsers.length);
+  }
+
   shouldRenderFinal() {
-    const {edge, framework, support: {node, browsers}} = this.state;
+    const {edge, framework, support: {node, browsers}, polyfill} = this.state;
     if (!edge) return false;
     if (!framework) return false;
     if (framework !== FRAMEWORKS.get('nodePackage') && !node && !browsers.length) return false;
+    if (!polyfill) return false;
     return true;
+  }
+
+  renderPolyfillQuestion() {
+    return (
+      <Message length={LENGTHS.POLYFILL} key="polyfill-question">
+        <PolyfillQuestion
+          value={this.state.polyfill}
+          onChange={polyfill => this.setState({polyfill})}
+        />
+      </Message>
+    );
   }
 
   maybeRenderFinal() {

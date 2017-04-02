@@ -53,3 +53,12 @@ export const BROWSERS = {
     {text: '>5%', value: '> 5%'},
   ],
 };
+
+export const POLYFILLS = addHelpers({
+  texts: {
+    none: 'None',
+    detect: 'Detect features',
+    everything: 'Everything',
+    guess: 'Best guess',
+  },
+});
