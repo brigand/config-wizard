@@ -1,7 +1,6 @@
 {
   "name": "config-wizard",
   "version": "0.0.1",
-  "private": true,
   "homepage": "https://brigand.github.io/config-wizard",
   "dependencies": {
     "yargs": "^7.0.2"
