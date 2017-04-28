@@ -3,8 +3,6 @@ import arrford from '../../utils/arrford';
 import Button from '../../atoms/Button';
 import Message from '../../atoms/Message';
 import FinalMessage from './FinalMessage';
-import PolyfillQuestion from './messages/PolyfillQuestion';
-import PolyfillReply from './messages/PolyfillReply';
 import {EDGES, FRAMEWORKS, BROWSERS} from './babelConstants';
 import './BabelSite.css';
 
@@ -32,7 +30,6 @@ class BabelSite extends React.Component {
       edge: null,
       framework: null,
       support: INITIAL_SUPPORT,
-      polyfill: null,
     };
   }
   componentDidMount() {
@@ -285,23 +282,11 @@ class BabelSite extends React.Component {
   }
 
   shouldRenderFinal() {
-    const {edge, framework, support: {node, browsers}, polyfill} = this.state;
+    const {edge, framework, support: {node, browsers}} = this.state;
     if (!edge) return false;
     if (!framework) return false;
     if (framework !== FRAMEWORKS.get('nodePackage') && !node && !browsers.length) return false;
-    if (!polyfill) return false;
     return true;
-  }
-
-  renderPolyfillQuestion() {
-    return (
-      <Message length={LENGTHS.POLYFILL} key="polyfill-question">
-        <PolyfillQuestion
-          value={this.state.polyfill}
-          onChange={polyfill => this.setState({polyfill})}
-        />
-      </Message>
-    );
   }
 
   maybeRenderFinal() {
