@@ -59,7 +59,6 @@ class BabelSite extends React.Component {
           && this.renderBrowserSupportPrompt()
         }
         {(!!support.node || !!support.browsers.length) && this.renderBrowserSupportResponse()}
-        {this.hasSupport() && this.renderPolyfillQuestion()}
         {this.maybeRenderFinal()}
       </div>
     );

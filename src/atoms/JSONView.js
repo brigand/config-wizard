@@ -9,6 +9,7 @@ class JSONView extends React.Component {
 
   render() {
     const tokens = getTokens(this.props.string);
+
     return (
       <pre className="JSONView">
         <code>
@@ -41,7 +42,14 @@ export function getTokens(json) {
 
   for (let i = 0; i < json.length; i++) {
     const c = json[i];
-    if (c === '\n') {
+    if (isNumber) {
+      buffer += c;
+      if (!/[0-9.]/.test(json[i + 1])) {
+        line.push({type: 'number', value: buffer});
+        buffer = '';
+        isNumber = false;
+      }
+    } else if (c === '\n') {
       line = [];
       lines.push(line);
       buffer = '';
@@ -57,13 +65,6 @@ export function getTokens(json) {
     } else if (c === '"') {
       isString = true;
       buffer += c;
-    } else if (isNumber) {
-      buffer += c;
-      if (!/[0-9.]/.test(json[i + 1])) {
-        line.push({type: 'number', value: buffer});
-        buffer = '';
-        isNumber = false;
-      }
     } else if (/[0-9.]/.test(c)) {
       isNumber = true;
       buffer += c;
