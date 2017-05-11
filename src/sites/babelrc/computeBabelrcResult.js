@@ -45,24 +45,27 @@ const computeBabelrcResult = ({edge, framework, support}) => {
     rc.presets.push(getEnvConfig());
   }
 
+  // frameworks specific stuff
+  if (framework === FRAMEWORKS.get('react')) {
+    rc.presets.push(addDep('babel-preset-react'));
+  }
+
+  if (framework === FRAMEWORKS.get('angular1')) {
+    if (edge === EDGES.get('cutting')) {
+      rc.plugins.push(addDep('babel-plugin-transform-class-properties'));
+    }
+    rc.plugins.push(addDep('babel-plugin-angularjs-annotate', '^0.7.0'));
+  }
+
   if (edge === EDGES.get('bleeding')) {
     rc.presets.push(addDep('babel-preset-stage-0'));
     return normalize({deps, rc});
-  }
-
-  // frameworks specif stuff
-  if (framework === FRAMEWORKS.get('react')) {
-    rc.presets.push(addDep('babel-preset-react'));
   }
 
   if (edge === EDGES.get('cutting')) {
     if (framework === FRAMEWORKS.get('react')) {
       rc.plugins.push(addDep('babel-plugin-transform-class-properties'));
       rc.plugins.push(addDep('babel-plugin-transform-object-rest-spread'));
-    }
-    if (framework === FRAMEWORKS.get('angular1')) {
-      rc.plugins.push(addDep('babel-plugin-transform-class-properties'));
-      rc.plugins.push(addDep('babel-plugin-angularjs-annotate', '^0.7.0'));
     }
     if (framework === FRAMEWORKS.get('angular2')) {
       rc.plugins.push(addDep('babel-plugin-transform-decorators'));
