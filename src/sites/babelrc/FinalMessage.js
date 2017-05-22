@@ -55,7 +55,7 @@ class FinalMessage extends React.Component {
 }
 
 function shEscapeIfNeeded(str) {
-  if (/[{}*$><"?]/.test(str)) {
+  if (/^[~]/.test(str) || /[| \t{}*$><"?()\[;]/.test(str)) {
     return `'${str}'`;
   }
   return str;
