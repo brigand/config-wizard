@@ -300,7 +300,7 @@ class BabelSite extends React.Component {
     };
 
     return (
-      <Message key="final" remote length={LENGTHS.FINAL}>
+      <Message key={JSON.stringify(this.state)} remote length={LENGTHS.FINAL}>
         <FinalMessage data={data} />
       </Message>
     );
