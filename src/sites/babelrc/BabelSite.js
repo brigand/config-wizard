@@ -177,7 +177,7 @@ class BabelSite extends React.Component {
           <p>
             {`What's the minimum Node.js version you need to support?`}
           </p>
-          {[4, 5, 6, 7, 8].map(version => (
+          {[4, 6, 7, 8].map(version => (
             <Button
               key={version}
               active={support.node === version}
