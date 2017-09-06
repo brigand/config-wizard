@@ -17,6 +17,8 @@ class Message extends React.Component {
 
     // the time it takes to write the message
     length: PropTypes.number.isRequired,
+
+    noScroll: PropTypes.bool,
   };
 
   constructor(props) {
@@ -44,8 +46,12 @@ class Message extends React.Component {
           this.setState({entering: false});
           timeout(EXPAND_DURATION, () => {
             this.setState({didEnter: true});
-            if (this.el.scrollIntoViewIfNeeded) {
-              this.el.scrollIntoViewIfNeeded();
+            if (!this.props.noScroll) {
+              if (this.el.scrollIntoViewIfNeeded) {
+                this.el.scrollIntoViewIfNeeded();
+              } else {
+                this.el.scrollIntoView();
+              }
             }
           });
         });
